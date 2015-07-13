@@ -1,26 +1,26 @@
 {
-  "name": "hapi-raven",
+  "name": "@pager/hapi-raven",
   "version": "3.0.0",
   "description": "A Hapi plugin for sending exceptions to Sentry through Raven",
   "main": "./src",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bendrucker/hapi-raven.git"
+    "url": "https://github.com/pagerinc/hapi-raven.git"
   },
   "scripts": {
     "test": "mocha"
   },
   "dependencies": {
-    "raven": "0.7"
+    "raven": "^0.8.1"
   },
   "peerDependencies": {
     "hapi": "8"
   },
   "devDependencies": {
-    "boom": "~2.6.1",
-    "chai": "1",
+    "boom": "^2.8.0",
+    "chai": "^3.0.0",
     "hapi": "8",
-    "mocha": "1",
+    "mocha": "^2.2.5",
     "sinon": "1",
     "sinon-chai": "2"
   },
@@ -35,7 +35,7 @@
   "author": "Ben Drucker <bvdrucker@gmail.com> (http://www.bendrucker.me/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bendrucker/hapi-raven/issues"
+    "url": "https://github.com/pagerinc/hapi-raven/issues"
   },
-  "homepage": "https://github.com/bendrucker/hapi-raven"
+  "homepage": "https://github.com/pagerinc/hapi-raven"
 }

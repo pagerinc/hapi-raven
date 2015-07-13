@@ -3,12 +3,15 @@ hapi-raven [![Build Status](https://travis-ci.org/bendrucker/hapi-raven.svg?bran
 
 A Hapi plugin for sending exceptions to Sentry through Raven. 
 
+This is a fork of @bendrucker's `hapi-raven` package tweaked to better adjust to Pager's requirements.
+
 ## Setup
 
 Options:
 
 * **`dsn`**: Your Sentry DSN (required)
 * **`client`**: An options object that will be passed directly to the client as its second argument (optional)
+* **`patchGlobal`**: Boolean value that will trigger raven's `patchGlobal` functionality (optional)
 
 Note that DSN configuration using `process.env` is not supported. If you wish to replicate the [default environment variable behavior](https://github.com/getsentry/raven-node/blob/master/lib/client.js#L21), you'll need to supply the value directly:
 

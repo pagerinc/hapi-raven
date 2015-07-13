@@ -1,11 +1,18 @@
-'use strict';
-
-var raven  = require('raven');
+var raven = require('raven');
 
 exports.register = function (server, options, next) {
-  var client = new raven.Client(options.dsn, options.client);
+
+  var dsn = process.env.SENTRY_DSN || options.dsn;
+  var client = new raven.Client(dsn, options.client);
+
+  if (options.patchGlobal) {
+    client.patchGlobal();
+  }
+
   server.expose('client', client);
+
   server.on('request-error', function (request, err) {
+
     client.captureError(err, {
       extra: {
         timestamp: request.info.received,
