@@ -1,5 +1,7 @@
-hapi-raven [![Circle CI](https://circleci.com/gh/pagerinc/hapi-raven.svg?style=svg)](https://circleci.com/gh/pagerinc/hapi-raven)
+hapi-raven 
 ==========
+
+[![Circle CI](https://circleci.com/gh/pagerinc/hapi-raven.svg?style=svg)](https://circleci.com/gh/pagerinc/hapi-raven)[![Code Climate](https://codeclimate.com/repos/55a3d323695680658f00ad6d/badges/4b4d0c077d87c3af2491/gpa.svg)](https://codeclimate.com/repos/55a3d323695680658f00ad6d/feed)
 
 A Hapi plugin for sending exceptions to Sentry through Raven. 
 
