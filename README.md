@@ -1,4 +1,4 @@
-hapi-raven [![Build Status](https://travis-ci.org/bendrucker/hapi-raven.svg?branch=master)](https://travis-ci.org/bendrucker/hapi-raven)
+hapi-raven [![Circle CI](https://circleci.com/gh/pagerinc/hapi-raven.svg?style=svg)](https://circleci.com/gh/pagerinc/hapi-raven)
 ==========
 
 A Hapi plugin for sending exceptions to Sentry through Raven. 
