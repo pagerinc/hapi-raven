@@ -2,27 +2,30 @@
   "name": "@pager/hapi-raven",
   "version": "4.1.0",
   "description": "A Hapi plugin for sending exceptions to Sentry through Raven",
-  "main": "./src",
+  "main": "./lib",
   "repository": {
     "type": "git",
     "url": "https://github.com/pagerinc/hapi-raven.git"
   },
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "scripts": {
-    "test": "mocha"
+    "test": "lab -L -a code -t 100",
+    "test-cov-html": "lab -a code -r html -o coverage.html"
   },
   "dependencies": {
     "raven": "^0.8.1"
   },
   "peerDependencies": {
-    "hapi": ">= 9"
+    "hapi": ">= 11"
   },
   "devDependencies": {
-    "boom": "^2.8.0",
-    "chai": "^3.0.0",
+    "boom": "^3.0.0",
+    "code": "^2.0.1",
     "hapi": "^11.0.2",
-    "mocha": "^2.2.5",
-    "sinon": "1",
-    "sinon-chai": "2"
+    "lab": "^7.1.0",
+    "sinon": "1"
   },
   "keywords": [
     "hapi",

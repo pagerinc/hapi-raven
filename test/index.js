@@ -1,91 +1,148 @@
 'use strict';
 
-var chai   = require('chai').use(require('sinon-chai'));
-var expect = chai.expect;
-var hapi   = require('hapi');
-var raven  = require('raven');
-var sinon  = require('sinon');
-var boom   = require('boom');
+// Load modules
 
-/* globals describe:false, beforeEach:false, afterEach:false, it:false */
+const Lab = require('lab');
+const Code = require('code');
 
-describe('hapi-raven', function () {
+const Boom = require('boom');
+const Hapi = require('hapi');
+const Raven = require('raven');
+const Sinon = require('sinon');
+const Plugin = require('../');
 
-  var server, error;
-  beforeEach(function () {
-    server = new hapi.Server();
+
+// Declare internals
+
+const internals = {};
+
+
+// Test shortcuts
+
+const lab = exports.lab = Lab.script();
+const it = lab.it;
+const expect = Code.expect;
+
+
+it('registers with the dsn and client options', (done) => {
+
+    const server = new Hapi.Server();
     server.connection();
-    error  = new Error();
-    server.route({
-      method: 'GET',
-      path: '/',
-      handler: function (request, reply) {
-        reply(error);
-      }
-    });
-    server.route({
-      method: 'GET',
-      path: '/boom',
-      handler: function (request, reply) {
-        reply(boom.forbidden());
-      }
-    });
-  });
 
-  function register (options) {
-    server.register({
-      register: require('../'),
-      options: options || {
-        dsn: 'dsn'
-      }
-    }, function (err) {
-      if (err) throw err;
-    })
-  }
+    Sinon.stub(Raven, 'Client', (opts) => {
 
-  it('registers with the dsn and client options', function () {
-    sinon.stub(raven, 'Client');
-    var options = {};
-    register({
-      dsn: 'dsn',
-      client: options
-    });
-    expect(raven.Client).to.have.been.calledWith('dsn', options);
-    raven.Client.restore();
-  });
+        expect(opts).to.deep.equal('dsn');
 
-  it('captures request-error', function (done) {
-    var capture = sinon.spy();
-    sinon.stub(raven, 'Client').returns({
-      captureError: capture
+        return {
+            patchGlobal: (options) => expect(options).to.not.exist()
+        };
     });
-    register();
-    server.inject('/', function () {
-      expect(capture).to.have.been.calledWith(error, sinon.match.has('extra', {
-        timestamp: sinon.match.number,
-        id: sinon.match.string,
-        method: 'get',
-        path: '/',
-        query: {},
-        remoteAddress: '127.0.0.1',
-        userAgent: 'shot'
-      }));
-      raven.Client.restore();
-      done();
-    });
-  });
 
-  it('does not capture boom errors', function (done) {
-    var capture = sinon.spy();
-    sinon.stub(raven, 'Client').returns({
-      captureError: capture
-    });
-    register();
-    server.inject('/boom', function () {
-      expect(capture).to.not.have.been.called;
-      raven.Client.restore();
-      done();
-    });
-  });
+    const plugins = {
+        register: Plugin,
+        options: {
+            dsn: 'dsn',
+            patchGlobal: true,
+            client: Raven
+        }
+    };
 
+    server.register(plugins, (err) => {
+
+        expect(err).to.not.exist();
+        Raven.Client.restore();
+        return done();
+    });
+});
+
+
+it('captures a request-error', (done) => {
+
+    Sinon.stub(Raven, 'Client', (opts) => {
+
+        return {
+            captureError: function (error, params) {
+
+                return {
+                    timestamp: Sinon.match.number,
+                    id: Sinon.match.string,
+                    method: 'get',
+                    path: '/',
+                    query: {},
+                    remoteAddress: '127.0.0.1',
+                    userAgent: 'shot'
+                };
+            }
+        };
+    });
+
+    const server = new Hapi.Server();
+    server.connection();
+
+    const plugins = {
+        register: Plugin,
+        options: {
+            dsn: 'dsn',
+            client: {}
+        }
+    };
+
+    server.register(plugins, (err) => {
+
+        expect(err).to.not.exist();
+
+        server.route({
+            method: 'GET',
+            path: '/',
+            handler: (request, reply) => reply(new Error())
+        });
+
+        server.inject('/', () => {
+
+            Raven.Client.restore();
+            return done();
+        });
+    });
+});
+
+
+it('does not capture Boom errors', (done) => {
+
+    Sinon.stub(Raven, 'Client', (opts) => {
+
+        return {
+            captureError: () => {
+
+                throw new Error('shouldn\'t have been called!');
+            }
+        };
+    });
+
+    const server = new Hapi.Server();
+    server.connection();
+
+    const plugins = {
+        register: Plugin,
+        options: {
+            dsn: 'dsn',
+            client: {}
+        }
+    };
+
+    server.register(plugins, (err) => {
+
+        expect(err).to.not.exist();
+
+        server.route({
+            method: 'GET',
+            path: '/boom',
+            handler: (request, reply) => reply(Boom.forbidden())
+        });
+
+        server.inject('/boom', () => {
+
+            Raven.Client.restore();
+            return done();
+        });
+    });
 });
