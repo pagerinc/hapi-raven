@@ -15,16 +15,16 @@
     "test-cov-html": "lab -a code -r html -o coverage.html"
   },
   "dependencies": {
-    "raven": "^0.8.1"
+    "raven": "0.x.x"
   },
   "peerDependencies": {
     "hapi": ">= 11"
   },
   "devDependencies": {
-    "boom": "^3.0.0",
-    "code": "^2.0.1",
-    "hapi": "^11.0.2",
-    "lab": "^7.1.0",
+    "boom": "3.x.x",
+    "code": "2.x.x",
+    "hapi": "11.x.x",
+    "lab": "8.x.x",
     "sinon": "1"
   },
   "keywords": [

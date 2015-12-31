@@ -61,7 +61,7 @@ it('captures a request-error', (done) => {
     Sinon.stub(Raven, 'Client', (opts) => {
 
         return {
-            captureError: function (error, params) {
+            captureError: function (ignore, params) {
 
                 return {
                     timestamp: Sinon.match.number,
