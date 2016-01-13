@@ -23,7 +23,7 @@
   "devDependencies": {
     "boom": "3.x.x",
     "code": "2.x.x",
-    "hapi": "11.x.x",
+    "hapi": "12.x.x",
     "lab": "8.x.x",
     "sinon": "1"
   },
