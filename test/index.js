@@ -20,8 +20,16 @@ const internals = {};
 // Test shortcuts
 
 const lab = exports.lab = Lab.script();
-const it = lab.it;
+const afterEach = lab.afterEach;
 const expect = Code.expect;
+const it = lab.it;
+
+
+afterEach((done) => {
+
+    Raven.Client.restore();
+    done();
+});
 
 
 it('registers with the dsn and client options', (done) => {
@@ -34,7 +42,7 @@ it('registers with the dsn and client options', (done) => {
         expect(opts).to.deep.equal('dsn');
 
         return {
-            patchGlobal: (options) => expect(options).to.not.exist()
+            patchGlobal: (cb) => expect(cb).to.be.a.function()
         };
     });
 
@@ -50,7 +58,6 @@ it('registers with the dsn and client options', (done) => {
     server.register(plugins, (err) => {
 
         expect(err).to.not.exist();
-        Raven.Client.restore();
         return done();
     });
 });
@@ -99,7 +106,6 @@ it('captures a request-error', (done) => {
 
         server.inject('/', () => {
 
-            Raven.Client.restore();
             return done();
         });
     });
@@ -141,7 +147,6 @@ it('does not capture Boom errors', (done) => {
 
         server.inject('/boom', () => {
 
-            Raven.Client.restore();
             return done();
         });
     });
