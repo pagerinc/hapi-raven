@@ -151,3 +151,33 @@ it('does not capture Boom errors', (done) => {
         });
     });
 });
+
+
+it('does not patch global if missing dsn', (done) => {
+
+    const server = new Hapi.Server();
+    server.connection();
+
+    Sinon.stub(Raven, 'Client', (opts) => {
+
+        expect(opts).to.not.exist();
+
+        return {
+            patchGlobal: (cb) => expect(cb).to.not.exist()
+        };
+    });
+
+    const plugins = {
+        register: Plugin,
+        options: {
+            patchGlobal: true,
+            client: Raven
+        }
+    };
+
+    server.register(plugins, (err) => {
+
+        expect(err).to.not.exist();
+        return done();
+    });
+});
