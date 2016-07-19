@@ -39,7 +39,7 @@ it('registers with the dsn and client options', (done) => {
 
     Sinon.stub(Raven, 'Client', (opts) => {
 
-        expect(opts).to.deep.equal('dsn');
+        expect(opts).to.equal('dsn');
 
         return {
             patchGlobal: (cb) => expect(cb).to.be.a.function()
