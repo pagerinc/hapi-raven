@@ -8,7 +8,7 @@
     "url": "https://github.com/pagerinc/hapi-raven.git"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=8.9"
   },
   "scripts": {
     "test": "lab -L -a code -t 100",
