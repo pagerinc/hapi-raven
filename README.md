@@ -1,9 +1,9 @@
-hapi-raven 
+hapi-raven
 ==========
 
 [![Build Status](https://travis-ci.org/pagerinc/hapi-raven.svg)](https://travis-ci.org/pagerinc/hapi-raven) [![Code Climate](https://codeclimate.com/repos/55a3d323695680658f00ad6d/badges/4b4d0c077d87c3af2491/gpa.svg)](https://codeclimate.com/repos/55a3d323695680658f00ad6d/feed)
 
-A Hapi plugin for sending exceptions to Sentry through Raven. 
+A Hapi plugin for sending exceptions to Sentry through Raven.
 
 This is a fork of @bendrucker's `hapi-raven` package tweaked to better adjust to Pager's requirements.
 
@@ -22,16 +22,17 @@ server.register({
   register: require('hapi-raven'),
   options: {
     dsn: process.env.SENTRY_DSN,
-    patchGlobal: true
+    patchGlobal: true,
+    captureUnhandledRejections: true
   }
 });
 ```
 
 ## Usage
 
-Once you register the plugin on a server, logging will happen automatically. 
+Once you register the plugin on a server, logging will happen automatically.
 
-The plugin listens for [`'request-error'` events](http://hapijs.com/api#server-events) which are emitted any time `reply` is called with an error where `err.isBoom === false`. Note that the `'request-error'` event is emitted for all thrown exceptions and passed errors that are not Boom errors. Transforming an error at an extension point (e.g. `'onPostHandler'` or `'onPreResponse'`) into a Boom error will not prevent the event from being emitted on response. 
+The plugin listens for [`'request-error'` events](http://hapijs.com/api#server-events) which are emitted any time `reply` is called with an error where `err.isBoom === false`. Note that the `'request-error'` event is emitted for all thrown exceptions and passed errors that are not Boom errors. Transforming an error at an extension point (e.g. `'onPostHandler'` or `'onPreResponse'`) into a Boom error will not prevent the event from being emitted on response.
 
 --------------
 

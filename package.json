@@ -18,9 +18,9 @@
     "raven": "2.x.x"
   },
   "devDependencies": {
-    "code": "4.x.x",
-    "hapi": "16.x.x",
-    "lab": "14.x.x"
+    "code": "5.x.x",
+    "hapi": "17.x.x",
+    "lab": "15.x.x"
   },
   "keywords": [
     "hapi",
