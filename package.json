@@ -1,6 +1,6 @@
 {
   "name": "@pager/hapi-raven",
-  "version": "5.5.0",
+  "version": "7.0.0",
   "description": "A Hapi plugin for sending exceptions to Sentry through Raven",
   "main": "./lib",
   "repository": {
