@@ -15,7 +15,7 @@
     "test-cov-html": "lab -a code -r html -o coverage.html"
   },
   "dependencies": {
-    "raven": "1.x.x"
+    "raven": "2.x.x"
   },
   "devDependencies": {
     "code": "4.x.x",
